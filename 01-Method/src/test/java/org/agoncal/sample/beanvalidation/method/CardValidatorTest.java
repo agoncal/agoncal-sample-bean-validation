@@ -1,6 +1,7 @@
 package org.agoncal.sample.beanvalidation.method;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.validation.*;
@@ -38,7 +39,7 @@ public class CardValidatorTest {
     // ======================================
 
     @Test
-    public void shouldRaiseNoConstraintViolation() throws NoSuchMethodException {
+    public void shouldRaiseNoConstraintViolationCauseCreditCardIsEven() throws NoSuchMethodException {
 
         CreditCard creditCard = new CreditCard("12341234", "10/10", 1234, "VISA");
         CardValidator cardValidator = new CardValidator();
@@ -48,8 +49,23 @@ public class CardValidatorTest {
         Set<ConstraintViolation<CardValidator>> constraints = methodValidator.validateParameters(cardValidator, method, new Object[]{creditCard});
         assertEquals(0, constraints.size());
 
-        constraints = methodValidator.validateReturnValue(cardValidator, method, new Object[]{creditCard});
+        constraints = methodValidator.validateReturnValue(cardValidator, method, cardValidator.validate(creditCard));
         assertEquals(0, constraints.size());
+    }
+
+    @Test
+    public void shouldRaiseConstraintViolationCauseCreditCardIsOdd() throws NoSuchMethodException {
+
+        CreditCard creditCard = new CreditCard("1234123", "10/10", 1234, "VISA");
+        CardValidator cardValidator = new CardValidator();
+
+        MethodValidator methodValidator = validator.forMethods();
+        Method method = CardValidator.class.getMethod("validate", CreditCard.class);
+        Set<ConstraintViolation<CardValidator>> constraints = methodValidator.validateParameters(cardValidator, method, new Object[]{creditCard});
+        assertEquals(0, constraints.size());
+
+        constraints = methodValidator.validateReturnValue(cardValidator, method, cardValidator.validate(creditCard));
+        assertEquals(1, constraints.size());
     }
 
     @Test
