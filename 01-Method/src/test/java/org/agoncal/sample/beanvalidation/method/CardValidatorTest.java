@@ -5,6 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.validation.*;
+import javax.validation.executable.ExecutableValidator;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -44,7 +45,7 @@ public class CardValidatorTest {
         CreditCard creditCard = new CreditCard("12341234", "10/10", 1234, "VISA");
         CardValidator cardValidator = new CardValidator();
 
-        MethodValidator methodValidator = validator.forMethods();
+        ExecutableValidator methodValidator = validator.forExecutables();
         Method method = CardValidator.class.getMethod("validate", CreditCard.class);
         Set<ConstraintViolation<CardValidator>> constraints = methodValidator.validateParameters(cardValidator, method, new Object[]{creditCard});
         assertEquals(0, constraints.size());
@@ -59,7 +60,7 @@ public class CardValidatorTest {
         CreditCard creditCard = new CreditCard("1234123", "10/10", 1234, "VISA");
         CardValidator cardValidator = new CardValidator();
 
-        MethodValidator methodValidator = validator.forMethods();
+        ExecutableValidator methodValidator = validator.forExecutables();
         Method method = CardValidator.class.getMethod("validate", CreditCard.class);
         Set<ConstraintViolation<CardValidator>> constraints = methodValidator.validateParameters(cardValidator, method, new Object[]{creditCard});
         assertEquals(0, constraints.size());
@@ -73,7 +74,7 @@ public class CardValidatorTest {
 
         CardValidator cardValidator = new CardValidator();
 
-        MethodValidator methodValidator = validator.forMethods();
+        ExecutableValidator methodValidator = validator.forExecutables();
         Method method = CardValidator.class.getMethod("validate", CreditCard.class);
         Set<ConstraintViolation<CardValidator>> constraints = methodValidator.validateParameters(cardValidator, method, new Object[]{null});
         displayContraintViolations(constraints);
@@ -86,7 +87,7 @@ public class CardValidatorTest {
         CreditCard creditCard = new CreditCard(null, null, null, null);
         CardValidator cardValidator = new CardValidator();
 
-        MethodValidator methodValidator = validator.forMethods();
+        ExecutableValidator methodValidator = validator.forExecutables();
         Method method = CardValidator.class.getMethod("validate", CreditCard.class);
         Set<ConstraintViolation<CardValidator>> constraints = methodValidator.validateParameters(cardValidator, method, new Object[]{creditCard});
         displayContraintViolations(constraints);
