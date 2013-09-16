@@ -3,6 +3,7 @@
 Several samples about Bean Validation : 
 
 * 01-Method : Method/Constructor validation
+* 02-WithWithout : Shows validation with and without Bean Validation
 
 # Licensing
 

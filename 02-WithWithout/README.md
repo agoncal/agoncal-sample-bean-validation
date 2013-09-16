@@ -1,8 +1,8 @@
-# Samples - Bean Validation - Method
+# Samples - Bean Validation - WithWithout
 
 ## Purpose of this sample
 
-Shows how the new Bean Validation 1.1 method validation works
+Shows validation with and without Bean Validation
 
 ## Compile and package
 
